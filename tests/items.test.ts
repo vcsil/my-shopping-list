@@ -39,7 +39,21 @@ describe('Testa GET /items ', () => {
 });
 
 describe('Testa GET /items/:id ', () => {
-  it.todo('Deve retornar status 200 e um objeto igual a o item cadastrado');
-  it.todo('Deve retornar status 404 caso não exista um item com esse id');
+  it('Deve retornar status 200 e um objeto igual a o item cadastrado', async () => {
+    const item = await criaItem();
+    const insereItem = await supertest(app).post("/items").send(item);
+
+    const { body } = insereItem;
+
+    const result = await supertest(app).get(`/items/${body.id}`).send();
+
+    expect(result.status).toBe(200);
+    expect(body).toMatchObject(result.body);
+  });
+  it('Deve retornar status 404 caso não exista um item com esse id', async () => {
+    const result = await supertest(app).get('/items/98745874587').send();
+
+    expect(result.status).toBe(404);
+  });
 });
  
