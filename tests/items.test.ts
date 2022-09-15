@@ -28,7 +28,14 @@ describe('Testa POST /items ', () => {
 });
 
 describe('Testa GET /items ', () => {
-  it.todo('Deve retornar status 200 e o body no formato de Array');
+  it('Deve retornar status 200 e o body no formato de Array', async () => {
+    const result = await supertest(app).get("/items").send();
+
+    const {status, body} = result
+
+    expect(status).toEqual(200)
+    expect(body).toBeInstanceOf(Array)
+  });
 });
 
 describe('Testa GET /items/:id ', () => {
